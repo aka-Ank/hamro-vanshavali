@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>
+
+HAMRO VANSHAVALI
+
+</title>
+
+</head>
+
+<body>
+
+<h2>
+
+Registration Form
+
+</h2>
+
+<form>
+
+<!-- Applicant -->
+
+<label>
+
+Applicant Name:
+
+</label>
+
+<br>
+
+First Name:
+
+<input
+    type="text"
+    name="firstName"
+>
+
+Middle Name:
+
+<input
+    type="text"
+    name="middleName"
+>
+
+Last Name:
+
+<input
+type="text"
+name="lastName">
+
+<br><br>
+
+<!-- Father -->
+
+<label>
+
+Father Name:
+
+</label>
+
+<br>
+
+First Name:
+
+<input
+type="text"
+name="fatherFirst">
+
+Middle Name:
+
+<input
+type="text"
+name="fatherMiddle">
+
+Last Name:
+
+<input
+type="text"
+name="fatherLast">
+
+<br><br>
+
+<!-- Grandfather -->
+
+<label>
+
+Grandfather Name:
+
+</label>
+
+<br>
+
+First Name:
+
+<input
+type="text"
+name="grandFirst">
+
+Middle Name:
+
+<input
+type="text"
+name="grandMiddle">
+
+Last Name:
+
+<input
+type="text"
+name="grandLast">
+
+<br><br>
+
+<!-- DOB -->
+
+<label>
+
+Date Of Birth:
+
+</label>
+
+<input
+type="date"
+name="dob">
+
+<br><br>
+
+<!-- Province -->
+
+<label>
+
+Province:
+
+</label>
+
+<select
+id="province"
+onchange="loadDistricts()">
+
+<option>
+
+Select Province
+
+</option>
+
+</select>
+
+<br><br>
+
+<!-- District -->
+
+<label>
+
+District:
+
+</label>
+
+<select
+id="district"
+onchange="loadMunicipality()">
+
+<option>
+
+Select District
+
+</option>
+
+</select>
+
+<br><br>
+
+<!-- Municipality Type -->
+
+<label>
+
+Municipality Type:
+
+</label>
+
+<select
+name="municipalityType">
+
+<option>
+
+Rural Municipality
+
+</option>
+
+<option>
+
+Municipality
+
+</option>
+
+<option>
+
+Metro
+
+</option>
+
+<option>
+
+Sub Metro
+
+</option>
+
+</select>
+
+<br><br>
+
+<!-- Municipality -->
+
+<label>
+
+Municipality Name:
+
+</label>
+
+<select
+id="municipality">
+
+<option>
+
+Select Municipality
+
+</option>
+
+</select>
+
+<br><br>
+
+<!-- Ward -->
+
+<label>
+
+Ward No:
+
+</label>
+
+<input
+type="number"
+name="ward">
+
+<br><br>
+
+<!-- Tole -->
+
+<label>
+
+Tole:
+
+</label>
+
+<input
+type="text"
+name="tole">
+
+<br><br>
+
+<!-- Education -->
+
+<label>
+
+Education Level:
+
+</label>
+
+<select
+id="education"
+onchange="showDegree()">
+
+<option>
+
+Select
+
+</option>
+
+<option>
+
+Primary
+
+</option>
+
+<option>
+
+Secondary
+
+</option>
+
+<option>
+
+Higher Secondary
+
+</option>
+
+<option>
+
+Bachelor
+
+</option>
+
+<option>
+
+Master
+
+</option>
+
+<option>
+
+PhD
+
+</option>
+
+</select>
+
+<br><br>
+
+<div
+id="degreeDiv"
+style="display:none;">
+
+<label>
+
+Degree:
+
+</label>
+
+<input
+type="text"
+name="degree">
+
+</div>
+
+<br>
+
+<!-- Experience -->
+
+<label>
+
+Experience:
+
+</label>
+
+<textarea
+name="experience">
+
+</textarea>
+
+<br><br>
+
+<!-- Profession -->
+
+<label>
+
+Profession:
+
+</label>
+
+<input
+type="text"
+name="profession">
+
+<br><br>
+
+<!-- Mobile -->
+
+<label>
+
+Mobile Number:
+
+</label>
+
+<input
+type="tel"
+name="mobile">
+
+<br><br>
+
+<!-- Email -->
+
+<label>
+
+Email:
+
+</label>
+
+<input
+type="email"
+name="email">
+
+<br><br>
+
+<!-- Photo -->
+
+<label>
+
+Photo Upload:
+
+</label>
+
+<input
+type="file"
+name="photo">
+
+<br><br>
+
+<button
+type="submit">
+
+Submit
+
+</button>
+
+</form>
+
+<script>
+
+/* Load Provinces */
+
+fetch("../data/provinces.json")
+
+.then(response=>response.json())
+
+.then(data=>{
+
+let province=
+
+document.getElementById(
+"province"
+);
+
+data.provinces.forEach(item=>{
+
+province.innerHTML +=
+
+`
+<option
+value="${item}">
+
+${item}
+
+</option>
+`;
+
+});
+
+})
+
+.catch(error=>{
+
+console.log(error);
+
+});
+
+/* Load District */
+
+function loadDistricts(){
+
+let province=
+
+document.getElementById(
+"province"
+).value;
+
+fetch(
+
+`../data/districtsByProvince/${province}.json`
+
+)
+
+.then(response=>response.json())
+
+.then(data=>{
+
+let district=
+
+document.getElementById(
+"district"
+);
+
+district.innerHTML=
+
+`
+<option>
+
+Select District
+
+</option>
+`;
+
+document.getElementById(
+"municipality"
+).innerHTML=
+
+`
+<option>
+
+Select Municipality
+
+</option>
+`;
+
+data.districts.forEach(item=>{
+
+district.innerHTML +=
+
+`
+<option
+value="${item}">
+
+${item}
+
+</option>
+`;
+
+});
+
+})
+
+.catch(error=>{
+
+console.log(error);
+
+});
+
+}
+
+/* Load Municipality */
+
+function loadMunicipality(){
+
+let district=
+
+document.getElementById(
+"district"
+).value;
+
+fetch(
+
+`../data/municipalsByDistrict/${district}.json`
+
+)
+
+.then(response=>response.json())
+
+.then(data=>{
+
+let municipality=
+
+document.getElementById(
+"municipality"
+);
+
+municipality.innerHTML=
+
+`
+<option>
+
+Select Municipality
+
+</option>
+`;
+
+data.municipals.forEach(item=>{
+
+municipality.innerHTML +=
+
+`
+<option>
+
+${item}
+
+</option>
+`;
+
+});
+
+})
+
+.catch(error=>{
+
+console.log(error);
+
+});
+
+}
+
+/* Degree */
+
+function showDegree(){
+
+let education=
+
+document.getElementById(
+"education"
+).value;
+
+let higher=[
+
+"Higher Secondary",
+
+"Bachelor",
+
+"Master",
+
+"PhD"
+
+];
+
+document.getElementById(
+"degreeDiv"
+)
+
+.style.display=
+
+higher.includes(
+education
+)
+
+?
+
+"block"
+
+:
+
+"none";
+
+}
+
+</script>
+
+</body>
+
+</html>
